@@ -1,7 +1,7 @@
-import {Text} from "@mantine/core";
+import FormContainer from "../components/FormContainer";
 
 export default function Home() {
-  return (
-      <Text>Hello world</Text>
-  )
+    return (
+        <FormContainer/>
+    )
 }
