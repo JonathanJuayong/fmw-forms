@@ -1,11 +1,11 @@
-import {MyFormData} from "../utils/types/FormData";
+import {FormQuestion} from "../utils/types/FormQuestion";
 import {Dispatch, useEffect} from "react";
 import {useForm} from "react-hook-form";
 import {Carousel} from "@mantine/carousel";
 import {Button, Stack} from "@mantine/core";
 
 interface FormSectionProps {
-    questions: Array<MyFormData>
+    questions: Array<FormQuestion>
     sectionName: string
     formStateSetter: Dispatch<any>
 }
