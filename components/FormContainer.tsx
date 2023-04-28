@@ -1,12 +1,14 @@
-import {Control, useForm} from "react-hook-form";
 import MyTextInput from "./forms/MyTextInput";
 import MyCheckBox from "./forms/MyCheckBox";
-import {Button, Stack, Text} from "@mantine/core";
+import {Button, Stack} from "@mantine/core";
 import {Carousel, Embla} from "@mantine/carousel";
-import {Dispatch, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {Category} from "../utils/types/Category";
 import ChecklistSection from "./ChecklistSection";
-import {MyFormData} from "../utils/types/FormData";
+import {FormQuestion} from "../utils/types/FormQuestion";
+import {FormQuestionGroup} from "../utils/types/FormQuestionGroup";
+import {FormQuestionGroupContainer} from "../utils/types/FormQuestionGroupContainer";
+import FormSection from "./FormSection";
 
 const categories: Category[] = [
     {
@@ -59,16 +61,13 @@ const categories: Category[] = [
     }
 ]
 
-
-
-
-const formData: Array<MyFormData> = [
+const formQuestions1: Array<FormQuestion> = [
     {
         id: 0,
         name: "test",
         label: "test",
         default: "",
-        subForms: null,
+        subQuestions: null,
         Component: MyTextInput
     },
     {
@@ -76,13 +75,13 @@ const formData: Array<MyFormData> = [
         name: "test1",
         label: "test1",
         default: false,
-        subForms: [
+        subQuestions: [
             {
                 id: 4,
                 name: "test4",
                 label: "test4",
                 default: "",
-                subForms: null,
+                subQuestions: null,
                 Component: MyTextInput
             },
             {
@@ -90,7 +89,7 @@ const formData: Array<MyFormData> = [
                 name: "test5",
                 label: "test5",
                 default: "",
-                subForms: null,
+                subQuestions: null,
                 Component: MyTextInput
             },
         ],
@@ -101,13 +100,13 @@ const formData: Array<MyFormData> = [
         name: "test2",
         label: "test2",
         default: false,
-        subForms: [
+        subQuestions: [
             {
                 id: 6,
                 name: "test6",
                 label: "test6",
                 default: "",
-                subForms: null,
+                subQuestions: null,
                 Component: MyTextInput
             },
         ],
@@ -118,18 +117,62 @@ const formData: Array<MyFormData> = [
         name: "test3",
         label: "test3",
         default: false,
-        subForms: null,
+        subQuestions: null,
         Component: MyCheckBox
     },
 ]
 
+const formQuestions2: FormQuestion[] = [
+    {
+        id: 23,
+        name: "test23",
+        label: "test23",
+        default: "",
+        subQuestions: null,
+        Component: MyTextInput
+    },
+    {
+        id: 123,
+        name: "test123",
+        label: "test123",
+        default: "",
+        subQuestions: null,
+        Component: MyTextInput
+    },
+    {
+        id: 234,
+        name: "test234",
+        label: "test234",
+        default: "",
+        subQuestions: null,
+        Component: MyTextInput
+    },
+]
+
+const category1: FormQuestionGroup = {
+    checklistName: "paymentSummaryAndIncomeStatements",
+    questions: formQuestions1
+}
+
+const category2: FormQuestionGroup = {
+    checklistName: "lumpSumAndTerminationPaymentSummaries",
+    questions: formQuestions2
+}
+
+const formQuestionGroupContainer: FormQuestionGroupContainer = {
+    categoryName: "income",
+    formQuestionGroups: [category1, category2]
+}
+
 export default function FormContainer() {
     const [embla, setEmbla] = useState<Embla | null>(null);
+    const [checklists, setChecklists] = useState<any>({});
     const [formState, setFormState] = useState<any>({});
+    const {formQuestionGroups, categoryName} = formQuestionGroupContainer
 
     useEffect(() => {
         embla?.scrollNext()
-    }, [formState]);
+    }, [checklists]);
 
 
     return (
@@ -149,18 +192,24 @@ export default function FormContainer() {
                         }
                     }
                 }}>
-                <ChecklistSection formStateSetter={setFormState} categories={categories}/>
-                {/*<FormSection sectionName="firstPart" questions={formData.slice(0, 2)} formStateSetter={setFormState}/>*/}
-                {/*{*/}
-                {/*    formState?.firstPart?.test1 &&*/}
-                {/*    <FormSection sectionName="secondPart" questions={formData.slice(2, 4)}*/}
-                {/*                 formStateSetter={setFormState}/>*/}
-                {/*}*/}
+                <ChecklistSection formStateSetter={setChecklists} categories={categories}/>
+                {formQuestionGroups.map(({questions,checklistName}) => (
+                    checklists?.categories?.[categoryName]?.[checklistName] === true && (
+                        <FormSection
+                            key={checklistName}
+                            questions={questions}
+                            sectionName={checklistName}
+                            formStateSetter={setFormState}
+                        />
+                    )
+                ))}
             </Carousel>
-            {/*<Button ml="2.5em" mr="2.5em" onClick={() => embla?.scrollPrev()}>Prev</Button>*/}
+            <Button ml="2.5em" mr="2.5em" onClick={() => embla?.scrollPrev()}>Prev</Button>
             <pre>
                 {/*{JSON.stringify(withSubForms, null, 2)}*/}
-                {JSON.stringify(formState, null, 2)}
+                {JSON.stringify({formState}, null, 2)}
+                <hr/>
+                {JSON.stringify({checklists}, null, 2)}
             </pre>
         </Stack>
     )
