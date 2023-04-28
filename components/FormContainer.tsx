@@ -186,14 +186,7 @@ export default function FormContainer() {
                 getEmblaApi={setEmbla}
                 draggable={false}
                 withControls={false}
-                styles={{
-                    control: {
-                        '&[data-inactive]': {
-                            opacity: 0,
-                            cursor: "default"
-                        }
-                    }
-                }}>
+            >
                 <ChecklistSection
                     formStateSetter={setChecklists}
                     categories={categories}
