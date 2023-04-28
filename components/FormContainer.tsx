@@ -1,27 +1,68 @@
 import {Control, useForm} from "react-hook-form";
 import MyTextInput from "./forms/MyTextInput";
 import MyCheckBox from "./forms/MyCheckBox";
-import {Button, Stack} from "@mantine/core";
+import {Button, Stack, Text} from "@mantine/core";
 import {Carousel, Embla} from "@mantine/carousel";
 import {Dispatch, useEffect, useState} from "react";
+import {Category} from "../utils/types/Category";
+import ChecklistSection from "./ChecklistSection";
+import {MyFormData} from "../utils/types/FormData";
 
-interface MyFormComponentProps {
-    name: string
-    label: string
-    required?: boolean
-    control: Control
-}
+const categories: Category[] = [
+    {
+        name: "income",
+        label: "Income",
+        checklists: [
+            {
+                id: 1,
+                // @ts-ignore
+                label: "Payment Summary and Income Statements",
+                name: "paymentSummaryAndIncomeStatements"
+            },
+            {
+                id: 2,
+                // @ts-ignore
+                label: "Lump Sum and Termination Payment Summaries",
+                name: "lumpSumAndTerminationPaymentSummaries"
+            },
+            {
+                id: 3,
+                // @ts-ignore
+                label: "Interest income from banks and building societies",
+                name: "interestIncomeFromBanksAndBuildingSocieties"
+            }
+        ]
+    },
+    {
+        name: "otherIncome",
+        label: "Other Income",
+        checklists: [
+            {
+                id: 4,
+                // @ts-ignore
+                label: "Rental Properties",
+                name: "rentalProperties"
+            },
+            {
+                id: 5,
+                // @ts-ignore
+                label: "Business",
+                name: "business"
+            },
+            {
+                id: 6,
+                // @ts-ignore
+                label: "Foreign Income",
+                name: "foreignIncome"
+            }
+        ]
+    }
+]
 
-type FormDataInterface = {
-    id: number
-    name: string,
-    label: string,
-    default: string | number | boolean
-    subForms: Array<FormDataInterface> | null,
-    Component: ({name, label, required, control}: MyFormComponentProps) => JSX.Element
-}
 
-const formData: Array<FormDataInterface> = [
+
+
+const formData: Array<MyFormData> = [
     {
         id: 0,
         name: "test",
@@ -82,58 +123,6 @@ const formData: Array<FormDataInterface> = [
     },
 ]
 
-interface FormSectionProps {
-    questions: Array<FormDataInterface>
-    sectionName: string
-    formStateSetter: Dispatch<any>
-}
-
-function FormSection({questions, sectionName, formStateSetter}: FormSectionProps) {
-    const defaultValues = questions.reduce(((acc, cur) => {
-        return {
-            ...acc,
-            [cur.name]: cur.default
-        }
-    }), {});
-    const {control, handleSubmit} = useForm({
-        defaultValues: {...defaultValues},
-        shouldUnregister: true
-    })
-    const onSubmitHandler = handleSubmit((data) => {
-        formStateSetter((prev: any) => ({
-            ...prev,
-            [sectionName]: data
-        }))
-    })
-
-    useEffect(() => {
-        formStateSetter((prev: any) => ({
-            ...prev,
-            [sectionName]: {...defaultValues}
-        }))
-        return () => {
-            formStateSetter((prev: any) => ({
-                ...prev,
-                [sectionName]: {}
-            }))
-        };
-    }, []);
-
-
-    return (
-        <Carousel.Slide>
-            <form onSubmit={onSubmitHandler}>
-                <Stack sx={{marginInline: "2em"}}>
-                    {questions.map(({name, label, Component}) => (
-                        <Component key={name} name={name} label={label} control={control}/>
-                    ))}
-                    <Button onClick={onSubmitHandler}>Next</Button>
-                </Stack>
-            </form>
-        </Carousel.Slide>
-    )
-}
-
 export default function FormContainer() {
     const [embla, setEmbla] = useState<Embla | null>(null);
     const [formState, setFormState] = useState<any>({});
@@ -151,7 +140,7 @@ export default function FormContainer() {
                 mih="100%"
                 getEmblaApi={setEmbla}
                 draggable={false}
-                withControls={true}
+                withControls={false}
                 styles={{
                     control: {
                         '&[data-inactive]': {
@@ -160,13 +149,15 @@ export default function FormContainer() {
                         }
                     }
                 }}>
-                <FormSection sectionName="firstPart" questions={formData.slice(0, 2)} formStateSetter={setFormState}/>
-                {
-                    formState?.firstPart?.test1 &&
-                    <FormSection sectionName="secondPart" questions={formData.slice(2, 4)}
-                                 formStateSetter={setFormState}/>
-                }
+                <ChecklistSection formStateSetter={setFormState} categories={categories}/>
+                {/*<FormSection sectionName="firstPart" questions={formData.slice(0, 2)} formStateSetter={setFormState}/>*/}
+                {/*{*/}
+                {/*    formState?.firstPart?.test1 &&*/}
+                {/*    <FormSection sectionName="secondPart" questions={formData.slice(2, 4)}*/}
+                {/*                 formStateSetter={setFormState}/>*/}
+                {/*}*/}
             </Carousel>
+            {/*<Button ml="2.5em" mr="2.5em" onClick={() => embla?.scrollPrev()}>Prev</Button>*/}
             <pre>
                 {/*{JSON.stringify(withSubForms, null, 2)}*/}
                 {JSON.stringify(formState, null, 2)}
