@@ -1,4 +1,4 @@
-import {Dispatch} from "react";
+import {Dispatch, useEffect} from "react";
 import {useForm} from "react-hook-form";
 import {Button, Stack, Text} from "@mantine/core";
 import MyCheckBox from "./forms/MyCheckBox";
@@ -7,10 +7,11 @@ import {Carousel} from "@mantine/carousel";
 
 interface ChecklistSectionProps {
     categories: Category[],
-    formStateSetter: Dispatch<any>
+    formStateSetter: Dispatch<any>,
+    onNextButtonClick: () => void
 }
 
-export default function ChecklistSection({categories, formStateSetter}: ChecklistSectionProps) {
+export default function ChecklistSection({categories, onNextButtonClick, formStateSetter}: ChecklistSectionProps) {
     const defaultValues = categories.reduce((acc, cur) => {
         return {
             ...acc,
@@ -24,34 +25,39 @@ export default function ChecklistSection({categories, formStateSetter}: Checklis
             }
         }
     }, {})
-    const {control, handleSubmit} = useForm({defaultValues})
+    const {control, handleSubmit, watch} = useForm({defaultValues})
 
-    const submitHandler = handleSubmit(data => formStateSetter((prev: any) => ({
-        ...prev,
-        categories: data
-    })))
+    // const submitHandler = handleSubmit(data => formStateSetter((prev: any) => ({
+    //     ...prev,
+    //     categories: data
+    // })))
+
+    useEffect(() => {
+        const subscription = watch(value => formStateSetter((prev: any) => ({
+            ...prev,
+            categories: value
+        })))
+        return () => subscription.unsubscribe()
+    }, [watch]);
+
 
     return (
         <Carousel.Slide>
-            <Stack ml="2em" mr="2em">
-                <form onSubmit={submitHandler}>
-                    <Stack spacing="xl">
-                        {categories.map(category => (
-                            <Stack key={category.name}>
-                                <Text>{category.label}</Text>
-                                {category.checklists.map(checklist => (
-                                    <MyCheckBox
-                                        key={checklist.name}
-                                        name={`${category.name}.${checklist.name}`}
-                                        label={checklist.label}
-                                        control={control}
-                                    />
-                                ))}
-                            </Stack>
+            <Stack ml="2em" mr="2em" spacing="xl">
+                {categories.map(category => (
+                    <Stack key={category.name}>
+                        <Text>{category.label}</Text>
+                        {category.checklists.map(checklist => (
+                            <MyCheckBox
+                                key={checklist.name}
+                                name={`${category.name}.${checklist.name}`}
+                                label={checklist.label}
+                                control={control}
+                            />
                         ))}
-                        <Button onClick={submitHandler}>Next</Button>
                     </Stack>
-                </form>
+                ))}
+                <Button onClick={onNextButtonClick}>Next</Button>
             </Stack>
         </Carousel.Slide>
     )

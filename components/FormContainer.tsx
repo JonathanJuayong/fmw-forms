@@ -127,25 +127,25 @@ const formQuestions2: FormQuestion[] = [
         id: 23,
         name: "test23",
         label: "test23",
-        default: "",
+        default: false,
         subQuestions: null,
-        Component: MyTextInput
+        Component: MyCheckBox
     },
     {
         id: 123,
         name: "test123",
         label: "test123",
-        default: "",
+        default: false,
         subQuestions: null,
-        Component: MyTextInput
+        Component: MyCheckBox
     },
     {
         id: 234,
         name: "test234",
         label: "test234",
-        default: "",
+        default: false,
         subQuestions: null,
-        Component: MyTextInput
+        Component: MyCheckBox
     },
 ]
 
@@ -170,10 +170,12 @@ export default function FormContainer() {
     const [formState, setFormState] = useState<any>({});
     const {formQuestionGroups, categoryName} = formQuestionGroupContainer
 
-    useEffect(() => {
-        embla?.scrollNext()
-    }, [checklists]);
+    const triggerNextSlide = () => embla?.scrollNext()
 
+    useEffect(() => {
+        if (embla?.selectedScrollSnap() === 0) return
+        embla?.scrollNext()
+    }, [embla, formState]);
 
     return (
         <Stack>
@@ -192,8 +194,13 @@ export default function FormContainer() {
                         }
                     }
                 }}>
-                <ChecklistSection formStateSetter={setChecklists} categories={categories}/>
-                {formQuestionGroups.map(({questions,checklistName}) => (
+                <ChecklistSection
+                    formStateSetter={setChecklists}
+                    categories={categories}
+                    onNextButtonClick={triggerNextSlide}
+                />
+
+                {formQuestionGroups.map(({questions, checklistName}) => (
                     checklists?.categories?.[categoryName]?.[checklistName] === true && (
                         <FormSection
                             key={checklistName}
@@ -205,12 +212,11 @@ export default function FormContainer() {
                 ))}
             </Carousel>
             <Button ml="2.5em" mr="2.5em" onClick={() => embla?.scrollPrev()}>Prev</Button>
-            <pre>
-                {/*{JSON.stringify(withSubForms, null, 2)}*/}
-                {JSON.stringify({formState}, null, 2)}
-                <hr/>
-                {JSON.stringify({checklists}, null, 2)}
-            </pre>
+            {/*<pre>*/}
+            {/*    {JSON.stringify({formState}, null, 2)}*/}
+            {/*    <hr/>*/}
+            {/*    {JSON.stringify({checklists}, null, 2)}*/}
+            {/*</pre>*/}
         </Stack>
     )
 }
