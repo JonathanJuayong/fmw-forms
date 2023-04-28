@@ -1,14 +1,8 @@
-import {Control, Controller} from "react-hook-form";
+import {Controller} from "react-hook-form";
 import {Checkbox} from "@mantine/core";
+import {MyFormComponentProps} from "../../../utils/interfaces/MyFormComponentProps";
 
-interface MyCheckBoxProps {
-    name: string,
-    label: string,
-    control: Control,
-    required?: boolean
-}
-
-export default function MyCheckBox({name, label, control, required = false}: MyCheckBoxProps) {
+export default function MyCheckBox({name, label, control, required = false}: MyFormComponentProps) {
     return (
         <Controller
             control={control}

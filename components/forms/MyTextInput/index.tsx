@@ -1,14 +1,8 @@
-import {Control, Controller} from "react-hook-form";
+import {Controller} from "react-hook-form";
 import {TextInput} from "@mantine/core";
+import {MyFormComponentProps} from "../../../utils/interfaces/MyFormComponentProps";
 
-interface MyTextInputProps {
-    name: string,
-    label: string,
-    required?: boolean,
-    control: Control
-}
-
-export default function MyTextInput({name, label, required = false, control}: MyTextInputProps) {
+export default function MyTextInput({name, label, required = false, control}: MyFormComponentProps) {
     return (
         <Controller
             control={control}
