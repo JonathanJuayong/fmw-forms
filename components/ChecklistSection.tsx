@@ -3,6 +3,7 @@ import {useForm} from "react-hook-form";
 import {Button, Stack, Text} from "@mantine/core";
 import MyCheckBox from "./forms/MyCheckBox";
 import {Category} from "../utils/types/Category";
+import {Carousel} from "@mantine/carousel";
 
 interface ChecklistSectionProps {
     categories: Category[],
@@ -31,25 +32,27 @@ export default function ChecklistSection({categories, formStateSetter}: Checklis
     })))
 
     return (
-        <Stack>
-            <form onSubmit={submitHandler}>
-                <Stack spacing="xl">
-                    {categories.map(category => (
-                        <Stack key={category.name}>
-                            <Text>{category.label}</Text>
-                            {category.checklists.map(checklist => (
-                                <MyCheckBox
-                                    key={checklist.name}
-                                    name={`${category.name}.${checklist.name}`}
-                                    label={checklist.label}
-                                    control={control}
-                                />
-                            ))}
-                        </Stack>
-                    ))}
-                    <Button onClick={submitHandler}>Next</Button>
-                </Stack>
-            </form>
-        </Stack>
+        <Carousel.Slide>
+            <Stack ml="2em" mr="2em">
+                <form onSubmit={submitHandler}>
+                    <Stack spacing="xl">
+                        {categories.map(category => (
+                            <Stack key={category.name}>
+                                <Text>{category.label}</Text>
+                                {category.checklists.map(checklist => (
+                                    <MyCheckBox
+                                        key={checklist.name}
+                                        name={`${category.name}.${checklist.name}`}
+                                        label={checklist.label}
+                                        control={control}
+                                    />
+                                ))}
+                            </Stack>
+                        ))}
+                        <Button onClick={submitHandler}>Next</Button>
+                    </Stack>
+                </form>
+            </Stack>
+        </Carousel.Slide>
     )
 }
