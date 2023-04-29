@@ -48,17 +48,6 @@ export default function FormContainer({checklists}: FormContainerProps) {
                         )
                     ))
                 ))}
-
-                {/*{formQuestionGroups.map(({questions, checklistName}) => (*/}
-                {/*    checklists?.categories?.[categoryName]?.[checklistName] === true && (*/}
-                {/*        <FormSection*/}
-                {/*            key={checklistName}*/}
-                {/*            questions={questions}*/}
-                {/*            sectionName={checklistName}*/}
-                {/*            formStateSetter={setFormState}*/}
-                {/*        />*/}
-                {/*    )*/}
-                {/*))}*/}
             </Carousel>
             <Button ml="2.5em" mr="2.5em" onClick={() => embla?.scrollPrev()}>Prev</Button>
             <pre>
