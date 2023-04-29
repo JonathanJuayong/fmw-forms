@@ -4,6 +4,7 @@ import {useEffect, useState} from "react";
 import ChecklistSection from "./ChecklistSection";
 import {Checklist} from "../utils/interfaces/DataSchema";
 import FormSection from "./FormSection";
+import FormSummarySection from "./FormSummarySection";
 
 interface FormContainerProps {
     checklists: Checklist[]
@@ -15,6 +16,8 @@ export default function FormContainer({checklists}: FormContainerProps) {
     const [formState, setFormState] = useState<any>({});
 
     const triggerNextSlide = () => embla?.scrollNext()
+
+    const isSummaryShown = Object.keys(formState).length > 0
 
     useEffect(() => {
         if (embla?.selectedScrollSnap() === 0) return
@@ -32,10 +35,11 @@ export default function FormContainer({checklists}: FormContainerProps) {
                 withControls={false}
             >
                 <ChecklistSection
-                    formStateSetter={setChecklistState}
+                    checklistStateSetter={setChecklistState}
                     checklists={checklists}
                     onNextButtonClick={triggerNextSlide}
                 />
+
                 {checklists.map(checklists => (
                     checklists.checklistItems.map(checklistItem => (
                         checklistState?.checklists?.[checklists.name]?.[checklistItem.name] === true && (
@@ -48,6 +52,9 @@ export default function FormContainer({checklists}: FormContainerProps) {
                         )
                     ))
                 ))}
+                {isSummaryShown && (
+                    <FormSummarySection formState={formState}/>
+                )}
             </Carousel>
             <Button ml="2.5em" mr="2.5em" onClick={() => embla?.scrollPrev()}>Prev</Button>
             <pre>
