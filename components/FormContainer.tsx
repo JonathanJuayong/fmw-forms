@@ -7,7 +7,7 @@ import {Category} from "../utils/types/Category";
 import ChecklistSection from "./ChecklistSection";
 import {FormQuestion} from "../utils/types/FormQuestion";
 import {FormQuestionGroup} from "../utils/types/FormQuestionGroup";
-import {FormQuestionGroupContainer} from "../utils/types/FormQuestionGroupContainer";
+import {FormQuestionCategory} from "../utils/types/FormQuestionCategory";
 import FormSection from "./FormSection";
 
 const categories: Category[] = [
@@ -159,16 +159,20 @@ const category2: FormQuestionGroup = {
     questions: formQuestions2
 }
 
-const formQuestionGroupContainer: FormQuestionGroupContainer = {
+const formQuestionCategory: FormQuestionCategory = {
     categoryName: "income",
     formQuestionGroups: [category1, category2]
+}
+
+interface FormContainerProps {
+    formQuestionCategory: FormQuestionCategory
 }
 
 export default function FormContainer() {
     const [embla, setEmbla] = useState<Embla | null>(null);
     const [checklists, setChecklists] = useState<any>({});
     const [formState, setFormState] = useState<any>({});
-    const {formQuestionGroups, categoryName} = formQuestionGroupContainer
+    const {formQuestionGroups, categoryName} = formQuestionCategory
 
     const triggerNextSlide = () => embla?.scrollNext()
 
