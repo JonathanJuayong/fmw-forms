@@ -1,5 +1,6 @@
 import {Checklist, ChecklistItem, FormQuestion} from "./interfaces/DataSchema";
 import MyCheckBox from "../components/forms/MyCheckBox";
+import MyTextInput from "../components/forms/MyTextInput";
 
 const formQuestions1: FormQuestion[] = [
     {
@@ -22,6 +23,13 @@ const formQuestions1: FormQuestion[] = [
         default: false,
         subQuestions: null,
         Component: MyCheckBox,
+    },
+    {
+        name: "test3a",
+        label: "Test 3a",
+        default: "",
+        subQuestions: null,
+        Component: MyTextInput,
     },
 ]
 
