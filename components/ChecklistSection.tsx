@@ -7,7 +7,7 @@ import {Checklist} from "../utils/interfaces/DataSchema";
 
 interface ChecklistSectionProps {
     checklists: Checklist[],
-    formStateSetter: Dispatch<any>,
+    checklistStateSetter: Dispatch<any>,
     onNextButtonClick: () => void
 }
 
@@ -15,7 +15,7 @@ export default function ChecklistSection(
     {
         checklists,
         onNextButtonClick,
-        formStateSetter
+        checklistStateSetter
     }: ChecklistSectionProps
 ) {
     const defaultValues = checklists.reduce((acc, checklist) => {
@@ -34,14 +34,14 @@ export default function ChecklistSection(
     const {control, watch} = useForm({defaultValues})
 
     useEffect(() => {
-        formStateSetter((prev: any) => ({
+        checklistStateSetter((prev: any) => ({
             ...prev,
             checklists: defaultValues
         }))
     }, []);
 
     useEffect(() => {
-        const subscription = watch(value => formStateSetter((prev: any) => ({
+        const subscription = watch(value => checklistStateSetter((prev: any) => ({
             ...prev,
             checklists: value
         })))
