@@ -34,10 +34,10 @@ export default function FormSection({questions, sectionName, formStateSetter}: F
             [sectionName]: {...defaultValues}
         }))
         return () => {
-            formStateSetter((prev: any) => ({
-                ...prev,
-                [sectionName]: {}
-            }))
+            formStateSetter((prev: any) => {
+                const {[sectionName]:_, ...rest} = prev
+                return rest
+            })
         };
     }, []);
 
