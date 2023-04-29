@@ -14,7 +14,7 @@ export default function FormSection({questions, sectionName, formStateSetter}: F
     const defaultValues = questions.reduce(((acc, cur) => {
         return {
             ...acc,
-            [cur.name]: cur.default
+            [cur.label]: cur.default
         }
     }), {});
     const {control, handleSubmit} = useForm({
@@ -35,7 +35,7 @@ export default function FormSection({questions, sectionName, formStateSetter}: F
         }))
         return () => {
             formStateSetter((prev: any) => {
-                const {[sectionName]:_, ...rest} = prev
+                const {[sectionName]: _, ...rest} = prev
                 return rest
             })
         };
@@ -48,7 +48,7 @@ export default function FormSection({questions, sectionName, formStateSetter}: F
                 <Stack sx={{marginInline: "2em"}}>
                     <Text>{sectionName}</Text>
                     {questions.map(({name, label, Component}) => (
-                        <Component key={name} name={name} label={label} control={control}/>
+                        <Component key={name} name={label} label={label} control={control}/>
                     ))}
                     <Button onClick={onSubmitHandler}>Next</Button>
                 </Stack>
