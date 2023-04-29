@@ -34,6 +34,13 @@ export default function ChecklistSection(
     const {control, watch} = useForm({defaultValues})
 
     useEffect(() => {
+        formStateSetter((prev: any) => ({
+            ...prev,
+            checklists: defaultValues
+        }))
+    }, []);
+
+    useEffect(() => {
         const subscription = watch(value => formStateSetter((prev: any) => ({
             ...prev,
             checklists: value
