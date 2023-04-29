@@ -1,11 +1,11 @@
-import {FormQuestion} from "../utils/types/FormQuestion";
 import {Dispatch, useEffect} from "react";
 import {useForm} from "react-hook-form";
 import {Carousel} from "@mantine/carousel";
-import {Button, Stack} from "@mantine/core";
+import {Button, Stack, Text} from "@mantine/core";
+import {FormQuestion} from "../utils/interfaces/DataSchema";
 
 interface FormSectionProps {
-    questions: Array<FormQuestion>
+    questions: FormQuestion[]
     sectionName: string
     formStateSetter: Dispatch<any>
 }
@@ -46,6 +46,7 @@ export default function FormSection({questions, sectionName, formStateSetter}: F
         <Carousel.Slide>
             <form onSubmit={onSubmitHandler}>
                 <Stack sx={{marginInline: "2em"}}>
+                    <Text>{sectionName}</Text>
                     {questions.map(({name, label, Component}) => (
                         <Component key={name} name={name} label={label} control={control}/>
                     ))}
