@@ -1,11 +1,21 @@
 import {Carousel} from "@mantine/carousel";
-import {Stack, Text} from "@mantine/core";
+import {Button, Stack, Text} from "@mantine/core";
+import useMyFormContext from "./context/useMyFormContext";
+import {useRouter} from "next/router";
 
 interface FormSummarySectionProps {
     formState: any
 }
 
 export default function FormSummarySection({formState}: FormSummarySectionProps) {
+    const [_, setFormContext] = useMyFormContext()
+    const router = useRouter()
+
+    const onClickHandler = () => {
+        setFormContext(formState)
+        router.push("/summary")
+    }
+
     return (
         <Carousel.Slide>
             <Stack sx={{
@@ -26,6 +36,7 @@ export default function FormSummarySection({formState}: FormSummarySectionProps)
                         </ul>
                     </Stack>
                 ))}
+                <Button onClick={onClickHandler}>Create PDF</Button>
             </Stack>
         </Carousel.Slide>
     )
