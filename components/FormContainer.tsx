@@ -33,6 +33,7 @@ export default function FormContainer({checklists}: FormContainerProps) {
                 getEmblaApi={setEmbla}
                 draggable={false}
                 withControls={false}
+                withKeyboardEvents={false}
             >
                 <ChecklistSection
                     checklistStateSetter={setChecklistState}
