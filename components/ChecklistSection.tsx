@@ -2,7 +2,6 @@ import {Dispatch, useEffect} from "react";
 import {useForm} from "react-hook-form";
 import {Button, Stack, Text} from "@mantine/core";
 import MyCheckBox from "./forms/MyCheckBox";
-import {Carousel} from "@mantine/carousel";
 import {Checklist} from "../utils/interfaces/DataSchema";
 
 interface ChecklistSectionProps {

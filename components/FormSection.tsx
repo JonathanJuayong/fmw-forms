@@ -1,6 +1,5 @@
 import {Dispatch, useEffect} from "react";
 import {useForm} from "react-hook-form";
-import {Carousel} from "@mantine/carousel";
 import {Button, Stack, Text} from "@mantine/core";
 import {FormQuestion} from "../utils/interfaces/DataSchema";
 
