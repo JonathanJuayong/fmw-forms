@@ -35,34 +35,42 @@ export default function FormContainer({checklists}: FormContainerProps) {
                 withControls={false}
                 withKeyboardEvents={false}
             >
-                <ChecklistSection
-                    checklistStateSetter={setChecklistState}
-                    checklists={checklists}
-                    onNextButtonClick={triggerNextSlide}
-                />
+                <Carousel.Slide>
+                    <Stack>
+                        <ChecklistSection
+                            checklistStateSetter={setChecklistState}
+                            checklists={checklists}
+                            onNextButtonClick={triggerNextSlide}
+                        />
+                        <Button ml="2.5em" mr="2.5em" onClick={() => embla?.scrollPrev()}>Prev</Button>
+                    </Stack>
+                </Carousel.Slide>
 
                 {checklists.map(checklists => (
                     checklists.checklistItems.map(checklistItem => (
                         checklistState?.checklists?.[checklists.name]?.[checklistItem.name] === true && (
-                            <FormSection
-                                key={checklistItem.name}
-                                questions={checklistItem.formQuestions}
-                                sectionName={checklistItem.label}
-                                formStateSetter={setFormState}
-                            />
+                            <Carousel.Slide key={checklistItem.name}>
+                                <Stack>
+                                    <FormSection
+                                        questions={checklistItem.formQuestions}
+                                        sectionName={checklistItem.label}
+                                        formStateSetter={setFormState}
+                                    />
+                                    <Button ml="2.5em" mr="2.5em" onClick={() => embla?.scrollPrev()}>Prev</Button>
+                                </Stack>
+                            </Carousel.Slide>
                         )
                     ))
                 ))}
                 {isSummaryShown && (
-                    <FormSummarySection formState={formState}/>
+                    <Carousel.Slide>
+                        <Stack>
+                            <FormSummarySection formState={formState}/>
+                            <Button ml="2.5em" mr="2.5em" onClick={() => embla?.scrollPrev()}>Prev</Button>
+                        </Stack>
+                    </Carousel.Slide>
                 )}
             </Carousel>
-            <Button ml="2.5em" mr="2.5em" onClick={() => embla?.scrollPrev()}>Prev</Button>
-            <pre>
-                {JSON.stringify({checklistState}, null, 2)}
-                <hr/>
-                {JSON.stringify({formState}, null, 2)}
-            </pre>
         </Stack>
     )
 }

@@ -43,16 +43,14 @@ export default function FormSection({questions, sectionName, formStateSetter}: F
 
 
     return (
-        <Carousel.Slide>
-            <form onSubmit={onSubmitHandler}>
-                <Stack sx={{marginInline: "2em"}}>
-                    <Text>{sectionName}</Text>
-                    {questions.map(({name, label, Component}) => (
-                        <Component key={name} name={label} label={label} control={control}/>
-                    ))}
-                    <Button onClick={onSubmitHandler}>Next</Button>
-                </Stack>
-            </form>
-        </Carousel.Slide>
+        <form onSubmit={onSubmitHandler}>
+            <Stack sx={{marginInline: "2em"}}>
+                <Text>{sectionName}</Text>
+                {questions.map(({name, label, Component}) => (
+                    <Component key={name} name={label} label={label} control={control}/>
+                ))}
+                <Button onClick={onSubmitHandler}>Next</Button>
+            </Stack>
+        </form>
     )
 }

@@ -50,23 +50,21 @@ export default function ChecklistSection(
 
 
     return (
-        <Carousel.Slide>
-            <Stack ml="2em" mr="2em" spacing="xl">
-                {checklists.map(checklist => (
-                    <Stack key={checklist.name}>
-                        <Text>{checklist.label}</Text>
-                        {checklist.checklistItems.map(checklistItem => (
-                            <MyCheckBox
-                                key={checklistItem.name}
-                                name={`${checklist.name}.${checklistItem.name}`}
-                                label={checklistItem.label}
-                                control={control}
-                            />
-                        ))}
-                    </Stack>
-                ))}
-                <Button onClick={onNextButtonClick}>Next</Button>
-            </Stack>
-        </Carousel.Slide>
+        <Stack ml="2em" mr="2em" spacing="xl">
+            {checklists.map(checklist => (
+                <Stack key={checklist.name}>
+                    <Text>{checklist.label}</Text>
+                    {checklist.checklistItems.map(checklistItem => (
+                        <MyCheckBox
+                            key={checklistItem.name}
+                            name={`${checklist.name}.${checklistItem.name}`}
+                            label={checklistItem.label}
+                            control={control}
+                        />
+                    ))}
+                </Stack>
+            ))}
+            <Button onClick={onNextButtonClick}>Next</Button>
+        </Stack>
     )
 }
