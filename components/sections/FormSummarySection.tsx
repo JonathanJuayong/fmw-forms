@@ -1,6 +1,6 @@
 import {Button, Stack, Text} from "@mantine/core";
 import {PDFDownloadLink} from "@react-pdf/renderer";
-import MyDocument from "./pdf/MyDocument";
+import MyDocument from "../pdf/MyDocument";
 
 interface FormSummarySectionProps {
     formState: any

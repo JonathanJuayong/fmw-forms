@@ -1,7 +1,7 @@
 import {Dispatch, useEffect} from "react";
 import {useForm} from "react-hook-form";
 import {Button, Stack, Text} from "@mantine/core";
-import {FormQuestion} from "../utils/interfaces/DataSchema";
+import {FormQuestion} from "../../utils/interfaces/DataSchema";
 
 interface FormSectionProps {
     questions: FormQuestion[]

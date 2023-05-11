@@ -1,8 +1,8 @@
 import {Dispatch, useEffect} from "react";
 import {useForm} from "react-hook-form";
 import {Button, Stack, Text} from "@mantine/core";
-import MyCheckBox from "./forms/MyCheckBox";
-import {Checklist} from "../utils/interfaces/DataSchema";
+import MyCheckBox from "../forms/MyCheckBox";
+import {Checklist} from "../../utils/interfaces/DataSchema";
 
 interface ChecklistSectionProps {
     checklists: Checklist[],

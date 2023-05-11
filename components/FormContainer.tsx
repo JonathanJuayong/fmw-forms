@@ -1,10 +1,10 @@
 import {Button, Stack} from "@mantine/core";
 import {Carousel, Embla} from "@mantine/carousel";
 import {useEffect, useState} from "react";
-import ChecklistSection from "./ChecklistSection";
+import ChecklistSection from "./sections/ChecklistSection";
 import {Checklist} from "../utils/interfaces/DataSchema";
-import FormSection from "./FormSection";
-import FormSummarySection from "./FormSummarySection";
+import FormSection from "./sections/FormSection";
+import FormSummarySection from "./sections/FormSummarySection";
 
 interface FormContainerProps {
     checklists: Checklist[]
