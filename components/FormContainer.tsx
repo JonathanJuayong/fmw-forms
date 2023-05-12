@@ -14,7 +14,6 @@ interface FormContainerProps {
 const isObjectEmpty = (object: any) => Object.keys(object).length === 0
 
 const FORM_SECTION_INDEX_OFFSET = 2
-const STATIC_SLIDES = 3
 
 export default function FormContainer({checklists}: FormContainerProps) {
   const [embla, setEmbla] = useState<Embla | null>(null);
@@ -52,8 +51,6 @@ export default function FormContainer({checklists}: FormContainerProps) {
     if (isObjectEmpty(customerDetailsState)) return
     embla?.scrollNext()
   }, [embla, customerDetailsState]);
-
-  const totalSlides = STATIC_SLIDES + checklists.length
 
   return (
     <Stack>
