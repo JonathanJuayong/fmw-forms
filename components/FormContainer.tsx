@@ -22,6 +22,7 @@ export default function FormContainer({checklists}: FormContainerProps) {
   const [formState, setFormState] = useState<any>({});
   const [customerDetailsState, setCustomerDetailsState] = useState({});
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [slidesArray, setSlidesArray] = useState<HTMLElement[]>([]);
 
   const triggerNextSlide = () => embla?.scrollNext()
 
@@ -30,6 +31,7 @@ export default function FormContainer({checklists}: FormContainerProps) {
   const updateSlideState = () => {
     if (embla) {
       setCurrentSlide(embla.selectedScrollSnap())
+      setSlidesArray(embla.slideNodes())
     }
   }
 
@@ -120,10 +122,10 @@ export default function FormContainer({checklists}: FormContainerProps) {
             <Stack>
               <FormSummarySection
                 formState={formState}
-                tabbable={currentSlide === totalSlides - 1}
+                tabbable={currentSlide === slidesArray.length - 1}
               />
               <Button
-                tabIndex={currentSlide === totalSlides - 1 ? 0 : -1}
+                tabIndex={currentSlide === slidesArray.length - 1 ? 0 : -1}
                 ml="2.5em"
                 mr="2.5em"
                 onClick={() => embla?.scrollPrev()}

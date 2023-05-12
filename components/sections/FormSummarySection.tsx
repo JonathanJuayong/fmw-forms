@@ -4,10 +4,11 @@ import MyDocument from "../pdf/MyDocument";
 import {Tabbable} from "../../utils/interfaces/Tabbable";
 
 interface FormSummarySectionProps extends Tabbable {
+  customerDetails: any
   formState: any
 }
 
-export default function FormSummarySection({formState, tabbable = true}: FormSummarySectionProps) {
+export default function FormSummarySection({customerDetails, formState, tabbable = true}: FormSummarySectionProps) {
   const tabIndex = tabbable ? 0 : -1
   return (
     <Stack sx={{
@@ -28,7 +29,7 @@ export default function FormSummarySection({formState, tabbable = true}: FormSum
           </ul>
         </Stack>
       ))}
-      {tabbable && <PDFDownloadLink document={<MyDocument formState={formState}/>}>
+      {tabbable && <PDFDownloadLink document={<MyDocument customerDetails={customerDetails} formState={formState}/>}>
         {({loading}) => (
           loading ? <Button tabIndex={tabIndex} loading>Loading document</Button> :
             <Button tabIndex={tabIndex}>Download</Button>
