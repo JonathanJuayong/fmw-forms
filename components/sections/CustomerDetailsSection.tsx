@@ -9,10 +9,12 @@ interface CustomerDetailsSectionProps extends Tabbable {
   customerDetailsStateSetter: Dispatch<SetStateAction<any>>
 }
 
-export default function CustomerDetailsSection({
-                                                 customerDetailsStateSetter,
-                                                 tabbable = true
-                                               }: CustomerDetailsSectionProps) {
+export default function CustomerDetailsSection(
+  {
+    customerDetailsStateSetter,
+    tabbable = true
+  }: CustomerDetailsSectionProps
+) {
   const {control, handleSubmit} = useForm()
 
   const onClick = handleSubmit(data => {
