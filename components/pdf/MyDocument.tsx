@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
   body: {
-    padding: 30
+    padding: "30 40"
   },
   header: {
     marginBottom: 10
@@ -31,14 +31,23 @@ const styles = StyleSheet.create({
 })
 
 interface MyDocumentsProps {
+  customerDetails: any
   formState: any
 }
 
-export default function MyDocument({formState}: MyDocumentsProps) {
+export default function MyDocument({customerDetails, formState}: MyDocumentsProps) {
   return (
     <Document>
       <Page style={styles.body}>
         <Text style={styles.h1}>Form summary:</Text>
+        <View style={styles.group}>
+          {Object.entries(customerDetails).map(([key, value]: [key: string, value: any]) => (
+            <View key={key} style={styles.flex}>
+              <Text style={styles.lineItem}>{key}:</Text>
+              <Text>{value.toString()}</Text>
+            </View>
+          ))}
+        </View>
         {Object.entries(formState).map(([key, value]) => (
           <View key={key} style={styles.group}>
             <Text style={styles.header}>{key}</Text>

@@ -121,6 +121,7 @@ export default function FormContainer({checklists}: FormContainerProps) {
           <Carousel.Slide>
             <Stack>
               <FormSummarySection
+                customerDetails={customerDetailsState}
                 formState={formState}
                 tabbable={currentSlide === slidesArray.length - 1}
               />
