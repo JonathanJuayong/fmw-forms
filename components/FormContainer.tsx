@@ -5,24 +5,53 @@ import ChecklistSection from "./sections/ChecklistSection";
 import {Checklist} from "../utils/interfaces/DataSchema";
 import FormSection from "./sections/FormSection";
 import FormSummarySection from "./sections/FormSummarySection";
+import CustomerDetailsSection from "./sections/CustomerDetailsSection";
 
 interface FormContainerProps {
     checklists: Checklist[]
 }
 
+const isObjectEmpty = (object: any) => Object.keys(object).length === 0
+
+const FORM_SECTION_INDEX_OFFSET = 2
+const STATIC_SLIDES = 3
+
 export default function FormContainer({checklists}: FormContainerProps) {
     const [embla, setEmbla] = useState<Embla | null>(null);
     const [checklistState, setChecklistState] = useState<any>({});
     const [formState, setFormState] = useState<any>({});
+    const [customerDetailsState, setCustomerDetailsState] = useState({});
+    const [currentSlide, setCurrentSlide] = useState(0);
 
     const triggerNextSlide = () => embla?.scrollNext()
 
     const isSummaryShown = Object.keys(formState).length > 0
 
+    const updateSlideState = () => {
+        if (embla) {
+            setCurrentSlide(embla.selectedScrollSnap())
+        }
+    }
+
     useEffect(() => {
-        if (embla?.selectedScrollSnap() === 0) return
+        if (!embla) return
+        embla.on("select", updateSlideState)
+        return () => {
+            embla.off("select", updateSlideState)
+        }
+    }, [embla]);
+
+    useEffect(() => {
+        if (embla?.selectedScrollSnap() === 1 || embla?.selectedScrollSnap() === 0) return
         embla?.scrollNext()
     }, [embla, formState]);
+
+    useEffect(() => {
+        if (isObjectEmpty(customerDetailsState)) return
+        embla?.scrollNext()
+    }, [embla, customerDetailsState]);
+
+    const totalSlides = STATIC_SLIDES + checklists.length
 
     return (
         <Stack>
@@ -36,18 +65,34 @@ export default function FormContainer({checklists}: FormContainerProps) {
                 withKeyboardEvents={false}
             >
                 <Carousel.Slide>
+                    <Stack w="95%" ml="auto" mr="auto">
+                        <CustomerDetailsSection
+                          customerDetailsStateSetter={setCustomerDetailsState}
+                          tabbable={currentSlide === 0}
+                        />
+                    </Stack>
+                </Carousel.Slide>
+                <Carousel.Slide>
                     <Stack>
                         <ChecklistSection
-                            checklistStateSetter={setChecklistState}
-                            checklists={checklists}
-                            onNextButtonClick={triggerNextSlide}
+                          checklistStateSetter={setChecklistState}
+                          checklists={checklists}
+                          onNextButtonClick={triggerNextSlide}
+                          tabbable={currentSlide === 1}
                         />
-                        <Button ml="2.5em" mr="2.5em" onClick={() => embla?.scrollPrev()}>Prev</Button>
+                        <Button
+                          tabIndex={currentSlide === 1 ? 0 : -1}
+                          ml="2.5em"
+                          mr="2.5em"
+                          onClick={() => embla?.scrollPrev()}
+                        >
+                            Prev
+                        </Button>
                     </Stack>
                 </Carousel.Slide>
 
                 {checklists.map(checklists => (
-                    checklists.checklistItems.map(checklistItem => (
+                    checklists.checklistItems.map((checklistItem, index) => (
                         checklistState?.checklists?.[checklists.name]?.[checklistItem.name] === true && (
                             <Carousel.Slide key={checklistItem.name}>
                                 <Stack>
@@ -55,8 +100,16 @@ export default function FormContainer({checklists}: FormContainerProps) {
                                         questions={checklistItem.formQuestions}
                                         sectionName={checklistItem.label}
                                         formStateSetter={setFormState}
+                                        tabbable={currentSlide === index + FORM_SECTION_INDEX_OFFSET}
                                     />
-                                    <Button ml="2.5em" mr="2.5em" onClick={() => embla?.scrollPrev()}>Prev</Button>
+                                    <Button
+                                      tabIndex={currentSlide === index + FORM_SECTION_INDEX_OFFSET ? 0 : -1}
+                                      ml="2.5em"
+                                      mr="2.5em"
+                                      onClick={() => embla?.scrollPrev()}
+                                    >
+                                        Prev
+                                    </Button>
                                 </Stack>
                             </Carousel.Slide>
                         )
@@ -65,8 +118,18 @@ export default function FormContainer({checklists}: FormContainerProps) {
                 {isSummaryShown && (
                     <Carousel.Slide>
                         <Stack>
-                            <FormSummarySection formState={formState}/>
-                            <Button ml="2.5em" mr="2.5em" onClick={() => embla?.scrollPrev()}>Prev</Button>
+                            <FormSummarySection
+                              formState={formState}
+                              tabbable={currentSlide === totalSlides - 1}
+                            />
+                            <Button
+                              tabIndex={currentSlide === totalSlides - 1 ? 0 : -1}
+                              ml="2.5em"
+                              mr="2.5em"
+                              onClick={() => embla?.scrollPrev()}
+                            >
+                                Prev
+                            </Button>
                         </Stack>
                     </Carousel.Slide>
                 )}

@@ -1,12 +1,14 @@
 import {Button, Stack, Text} from "@mantine/core";
 import {PDFDownloadLink} from "@react-pdf/renderer";
 import MyDocument from "../pdf/MyDocument";
+import {Tabbable} from "../../utils/interfaces/Tabbable";
 
-interface FormSummarySectionProps {
+interface FormSummarySectionProps extends Tabbable{
     formState: any
 }
 
-export default function FormSummarySection({formState}: FormSummarySectionProps) {
+export default function FormSummarySection({formState, tabbable = true}: FormSummarySectionProps) {
+    const tabIndex = tabbable ? 0 : -1
     return (
         <Stack sx={{
             marginInline: "2em",
@@ -26,11 +28,12 @@ export default function FormSummarySection({formState}: FormSummarySectionProps)
                     </ul>
                 </Stack>
             ))}
-            <PDFDownloadLink document={<MyDocument formState={formState}/>}>
-                {({loading}) => (
-                    loading ? <Button loading>Loading document</Button> : <Button>Download</Button>
-                )}
-            </PDFDownloadLink>
+          {tabbable && <PDFDownloadLink document={<MyDocument formState={formState}/>}>
+            {({loading}) => (
+              loading ? <Button tabIndex={tabIndex} loading>Loading document</Button> :
+                <Button tabIndex={tabIndex}>Download</Button>
+            )}
+          </PDFDownloadLink>}
         </Stack>
     )
 }

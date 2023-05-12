@@ -5,4 +5,5 @@ export interface MyFormComponentProps {
     label: string
     required?: boolean
     control: Control
+    tabIndex: number
 }

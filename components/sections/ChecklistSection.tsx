@@ -3,8 +3,9 @@ import {useForm} from "react-hook-form";
 import {Button, Stack, Text} from "@mantine/core";
 import MyCheckBox from "../forms/MyCheckBox";
 import {Checklist} from "../../utils/interfaces/DataSchema";
+import {Tabbable} from "../../utils/interfaces/Tabbable";
 
-interface ChecklistSectionProps {
+interface ChecklistSectionProps extends Tabbable{
     checklists: Checklist[],
     checklistStateSetter: Dispatch<any>,
     onNextButtonClick: () => void
@@ -14,7 +15,8 @@ export default function ChecklistSection(
     {
         checklists,
         onNextButtonClick,
-        checklistStateSetter
+        checklistStateSetter,
+        tabbable = true
     }: ChecklistSectionProps
 ) {
     const defaultValues = checklists.reduce((acc, checklist) => {
@@ -47,6 +49,7 @@ export default function ChecklistSection(
         return () => subscription.unsubscribe()
     }, [watch]);
 
+    const tabIndex = tabbable ? 0 : -1
 
     return (
         <Stack ml="2em" mr="2em" spacing="xl">
@@ -59,11 +62,12 @@ export default function ChecklistSection(
                             name={`${checklist.name}.${checklistItem.name}`}
                             label={checklistItem.label}
                             control={control}
+                            tabIndex={tabIndex}
                         />
                     ))}
                 </Stack>
             ))}
-            <Button onClick={onNextButtonClick}>Next</Button>
+            <Button tabIndex={tabIndex} onClick={onNextButtonClick}>Next</Button>
         </Stack>
     )
 }
