@@ -6,7 +6,7 @@ export default function MyDatePicker({name, label, required = false, control, ta
   return (
     <Controller
       control={control}
-      name={name}
+      name={label}
       rules={{required}}
       render={({field}) => (
         <Input.Wrapper label={label} {...field}>

@@ -6,7 +6,7 @@ export default function MyTextInput({name, label, required = false, control, tab
   return (
     <Controller
       control={control}
-      name={name}
+      name={label}
       rules={{required}}
       render={({field}) => (
         <TextInput
