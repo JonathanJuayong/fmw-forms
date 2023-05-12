@@ -15,7 +15,7 @@ export default function MyDatePicker({name, label, required = false, control, ta
             type="date"
           />
         </Input.Wrapper>
-        )}
+      )}
     />
   )
 }

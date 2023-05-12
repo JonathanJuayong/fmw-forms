@@ -1,26 +1,26 @@
 import {createContext, Dispatch, ReactNode, SetStateAction, useState} from "react";
 
 type MyFormContextType = {
-    formContext: any | null,
-    setFormContext: Dispatch<SetStateAction<{}>> | null
+  formContext: any | null,
+  setFormContext: Dispatch<SetStateAction<{}>> | null
 }
 
 const defaultContext: MyFormContextType = {
-    formContext: null,
-    setFormContext: null
+  formContext: null,
+  setFormContext: null
 }
 
 export const Context = createContext<MyFormContextType>(defaultContext)
 
 interface FormContextProps {
-    children: ReactNode
+  children: ReactNode
 }
 
 export default function FormContext({children}: FormContextProps) {
-    const [formContext, setFormContext] = useState({});
-    return (
-        <Context.Provider value={{formContext, setFormContext}}>
-            {children}
-        </Context.Provider>
-    )
+  const [formContext, setFormContext] = useState({});
+  return (
+    <Context.Provider value={{formContext, setFormContext}}>
+      {children}
+    </Context.Provider>
+  )
 }
