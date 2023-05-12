@@ -18,7 +18,6 @@ export default function CustomerDetailsSection(
   const {control, handleSubmit} = useForm()
 
   const onClick = handleSubmit(data => {
-    console.log(data)
     customerDetailsStateSetter(data)
   })
 
